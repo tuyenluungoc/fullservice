@@ -7,7 +7,17 @@ function save() {
 
 function render() {
   const list = document.getElementById("list");
-  list.innerHTML = "";
+ list.innerHTML += `
+  <div class="card">
+    <h3>${c.name}</h3>
+    <p>📞 ${c.phone}</p>
+    <p style="color:${getStatusColor(c.status)}">
+      📌 ${getStatusText(c.status)}
+    </p>
+    <p>📝 ${c.note}</p>
+    <button onclick="deleteCustomer(${index})">🗑</button>
+  </div>
+`;
 
   let filtered = customers;
 

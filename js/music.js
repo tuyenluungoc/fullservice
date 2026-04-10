@@ -9,13 +9,13 @@ function render() {
   list.innerHTML = "";
 
   musics.forEach((m, index) => {
-    list.innerHTML += `
-      <div class="card">
-        <p>${m.name}</p>
-        <button onclick="playMusic('${m.link}')">Play</button>
-        <button onclick="deleteMusic(${index})">Xoá</button>
-      </div>
-    `;
+   list.innerHTML += `
+  <div class="card">
+    <h3>🎵 ${m.name}</h3>
+    <button onclick="playMusic('${m.link}')">▶ Play</button>
+    <button onclick="deleteMusic(${index})">🗑</button>
+  </div>
+`;
   });
 }
 

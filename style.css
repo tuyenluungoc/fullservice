@@ -1,53 +1,114 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
 body {
-  font-family: Arial;
-  background: #111;
-  color: white;
+  margin: 0;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  padding: 20px;
   text-align: center;
 }
 
-.container {
-  margin-top: 100px;
+/* ===== TITLE ===== */
+h1, h2 {
+  margin-bottom: 20px;
 }
 
+/* ===== MENU (HOME) ===== */
 .menu a {
   display: block;
-  margin: 15px;
+  margin: 12px auto;
   padding: 15px;
-  background: #222;
+  width: 250px;
+  background: #1e293b;
   color: white;
   text-decoration: none;
-  border-radius: 10px;
+  border-radius: 12px;
+  transition: 0.3s;
 }
 
 .menu a:hover {
-  background: #444;
+  background: #334155;
+  transform: scale(1.05);
 }
 
-.form input, .form select {
-  margin: 5px;
+/* ===== FORM ===== */
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input, select {
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
-}
-
-.form button {
-  padding: 10px;
-  border-radius: 8px;
-  background: #00adb5;
+  background: #1e293b;
   color: white;
-  border: none;
+  outline: none;
 }
 
-.list {
+input::placeholder {
+  color: #94a3b8;
+}
+
+/* ===== BUTTON ===== */
+button {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: none;
+  background: #22c55e;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #16a34a;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: #1e293b;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 15px;
+  width: 260px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* ===== LIST GRID ===== */
+.list, #musicList, #wordList {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.card {
-  background: #222;
-  padding: 15px;
-  margin: 10px;
-  border-radius: 12px;
-  width: 250px;
+/* ===== PLAYER ===== */
+#player {
+  margin: 20px 0;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .menu a {
+    width: 90%;
+  }
+
+  .card {
+    width: 90%;
+  }
 }

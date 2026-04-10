@@ -17,14 +17,14 @@ function render() {
   list.innerHTML = "";
 
   words.forEach((w, index) => {
-    list.innerHTML += `
-      <div class="card">
-        <h3>${w.word}</h3>
-        <p>${w.meaning}</p>
-        <p><i>${w.example}</i></p>
-        <button onclick="deleteWord(${index})">Xoá</button>
-      </div>
-    `;
+   list.innerHTML += `
+  <div class="card">
+    <h3>📖 ${w.word}</h3>
+    <p>👉 ${w.meaning}</p>
+    <p><i>“${w.example}”</i></p>
+    <button onclick="deleteWord(${index})">🗑</button>
+  </div>
+`;
   });
 }
 
