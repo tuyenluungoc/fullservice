@@ -1,21 +1,54 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Music</title>
-  <link rel="stylesheet" href="../style.css">
+<meta charset="UTF-8">
+<title>Music Pro</title>
+<link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
 
-<h2>🎧 Chill Music</h2>
+<div class="music-app">
 
-<input id="musicName" placeholder="Tên bài">
-<input id="musicLink" placeholder="Link YouTube">
-<button onclick="addMusic()">Thêm</button>
+  <h2>🎧 Music Pro</h2>
 
-<div id="player"></div>
+  <div class="upload">
+    <input type="file" id="audioInput" accept="audio/*">
+    <button onclick="uploadAudio()">MP3</button>
 
-<div id="musicList"></div>
+    <input type="file" id="videoInput" accept="video/*">
+    <button onclick="uploadVideo()">Video</button>
+  </div>
+
+  <div class="player-card">
+    <h3 id="nowPlaying">No song</h3>
+
+    <div id="player"></div>
+
+    <!-- progress -->
+    <input type="range" id="progress" value="0">
+
+    <!-- controls -->
+    <div class="controls">
+      <button onclick="prev()">⏮</button>
+      <button onclick="togglePlay()">▶/⏸</button>
+      <button onclick="next()">⏭</button>
+      <button onclick="toggleShuffle()">🔀</button>
+      <button onclick="toggleRepeat()">🔁</button>
+    </div>
+
+    <!-- volume -->
+    <input type="range" id="volume" min="0" max="1" step="0.01">
+  </div>
+
+  <div id="playlist"></div>
+
+</div>
+
+<!-- mini player -->
+<div id="miniPlayer" onclick="toggleMini()">
+  🎧 <span id="miniTitle"></span>
+</div>
 
 <script src="../js/music.js"></script>
 </body>
