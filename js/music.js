@@ -9,15 +9,39 @@ let media = null;
 function save() {
   localStorage.setItem("playlist", JSON.stringify(playlist));
 }
+let searchText = "";
 
+function searchTrack(text){
+  searchText = text.toLowerCase();
+  render();
+}
+function addYoutube(){
+  const link = document.getElementById("youtubeLink").value;
+
+  if(!link) return;
+
+  playlist.push({
+    name: "YouTube Video",
+    src: link,
+    type: "youtube"
+  });
+
+  save();
+  render();
+}
 function render() {
   const list = document.getElementById("playlist");
   list.innerHTML = "";
 
-  playlist.forEach((t, i) => {
+  const filtered = playlist.filter(t =>
+    t.name.toLowerCase().includes(searchText)
+  );
+
+  filtered.forEach((t, i) => {
     list.innerHTML += `
-      <div class="track ${i===currentIndex?"active":""}" onclick="selectTrack(${i})">
-        ${t.name}
+      <div class="track">
+        <span onclick="selectTrack(${i})">${t.name}</span>
+        <button onclick="deleteTrack(${i})">❌</button>
       </div>
     `;
   });
@@ -37,14 +61,17 @@ function uploadAudio() {
 
 function uploadVideo() {
   const file = videoInput.files[0];
-  const reader = new FileReader();
+  if (!file) return;
 
-  reader.onload = e => {
-    playlist.push({name:file.name,src:e.target.result,type:"video"});
-    save(); render();
-  };
+  const url = URL.createObjectURL(file);
 
-  reader.readAsDataURL(file);
+  playlist.push({
+    name: file.name,
+    src: url,
+    type: "video"
+  });
+
+  render(); // không save!
 }
 
 function selectTrack(i){
@@ -57,25 +84,34 @@ function play(){
   const player = document.getElementById("player");
 
   document.getElementById("nowPlaying").innerText = t.name;
-  document.getElementById("miniTitle").innerText = t.name;
 
   if(t.type==="audio"){
     player.innerHTML=`<audio id="media" src="${t.src}"></audio>`;
-  }else{
-    player.innerHTML=`<video id="media" src="${t.src}" width="100%"></video>`;
+  }
+  else if(t.type==="video"){
+    player.innerHTML=`<video id="media" src="${t.src}" controls></video>`;
+  }
+  else if(t.type==="youtube"){
+    const id = t.src.split("v=")[1];
+    player.innerHTML = `
+      <iframe width="100%" height="200"
+      src="https://www.youtube.com/embed/${id}"
+      allowfullscreen></iframe>
+    `;
+    return;
   }
 
   media = document.getElementById("media");
-
   media.play();
-  isPlaying=true;
 
   media.ontimeupdate = updateProgress;
   media.onended = handleEnd;
-
+}
+function deleteTrack(index){
+  playlist.splice(index,1);
+  save();
   render();
 }
-
 function togglePlay(){
   if(!media) return;
   if(isPlaying){
