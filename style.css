@@ -22,3 +22,32 @@ body {
 .menu a:hover {
   background: #444;
 }
+
+.form input, .form select {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.form button {
+  padding: 10px;
+  border-radius: 8px;
+  background: #00adb5;
+  color: white;
+  border: none;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background: #222;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 12px;
+  width: 250px;
+}

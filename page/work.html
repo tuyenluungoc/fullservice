@@ -3,16 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <title>Work</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
 <h2>💼 CRM Mini</h2>
 
-<input id="name" placeholder="Tên khách">
-<input id="phone" placeholder="SĐT">
-<button onclick="addCustomer()">Thêm</button>
+<div class="form">
+  <input id="name" placeholder="Tên khách">
+  <input id="phone" placeholder="SĐT">
 
-<ul id="list"></ul>
+  <select id="status">
+    <option value="new">Chưa gọi</option>
+    <option value="called">Đã gọi</option>
+    <option value="potential">Tiềm năng</option>
+  </select>
+
+  <input id="note" placeholder="Ghi chú">
+
+  <button onclick="addCustomer()">Thêm</button>
+</div>
+
+<hr>
+
+<select onchange="filterStatus(this.value)">
+  <option value="all">Tất cả</option>
+  <option value="new">Chưa gọi</option>
+  <option value="called">Đã gọi</option>
+  <option value="potential">Tiềm năng</option>
+</select>
+
+<div id="list" class="list"></div>
 
 <script src="../js/work.js"></script>
 </body>
