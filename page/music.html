@@ -11,18 +11,23 @@
 <div class="music-app">
 
   <h2>🎧 Music Pro</h2>
-<input 
-  type="text" 
-  placeholder="🔍 Tìm nhạc..." 
-  oninput="searchTrack(this.value)"
->
 
-<input 
-  type="text" 
-  id="youtubeLink" 
-  placeholder="Dán link YouTube..."
->
-<button onclick="addYoutube()">Add YouTube</button>
+  <!-- search -->
+  <input 
+    type="text" 
+    placeholder="🔍 Tìm nhạc..." 
+    oninput="searchTrack(this.value)"
+  >
+
+  <!-- youtube -->
+  <input 
+    type="text" 
+    id="youtubeLink" 
+    placeholder="Dán link YouTube..."
+  >
+  <button onclick="addYoutube()">Add YouTube</button>
+
+  <!-- upload -->
   <div class="upload">
     <input type="file" id="audioInput" accept="audio/*">
     <button onclick="uploadAudio()">MP3</button>
@@ -31,6 +36,7 @@
     <button onclick="uploadVideo()">Video</button>
   </div>
 
+  <!-- player -->
   <div class="player-card">
     <h3 id="nowPlaying">No song</h3>
 
@@ -52,6 +58,7 @@
     <input type="range" id="volume" min="0" max="1" step="0.01">
   </div>
 
+  <!-- playlist -->
   <div id="playlist"></div>
 
 </div>
