@@ -1,59 +1,39 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
   font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-  margin: 0;
-  background: #0f172a;
+  background: linear-gradient(135deg,#0f172a,#1e293b);
   color: #e2e8f0;
 }
 
-/* ===== CONTAINER ===== */
-.container {
-  padding: 20px;
+/* ===== APP ===== */
+.music-app {
+  max-width: 900px;
+  margin: auto;
+  padding: 15px;
   text-align: center;
 }
 
 /* ===== TITLE ===== */
-h1, h2 {
-  margin-bottom: 20px;
+h2 {
+  margin-bottom: 15px;
 }
 
-/* ===== MENU (HOME) ===== */
-.menu a {
-  display: block;
-  margin: 12px auto;
-  padding: 15px;
-  width: 250px;
-  background: #1e293b;
-  color: white;
-  text-decoration: none;
-  border-radius: 12px;
-  transition: 0.3s;
-}
-
-.menu a:hover {
-  background: #334155;
-  transform: scale(1.05);
-}
-
-/* ===== FORM ===== */
-.form {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-input, select {
+/* ===== INPUT ===== */
+input {
+  width: 100%;
+  max-width: 400px;
   padding: 10px;
+  margin: 6px auto;
   border-radius: 10px;
   border: none;
   background: #1e293b;
   color: white;
-  outline: none;
+  display: block;
 }
 
 input::placeholder {
@@ -69,99 +49,159 @@ button {
   color: white;
   cursor: pointer;
   transition: 0.2s;
+  margin: 5px;
 }
 
 button:hover {
   background: #16a34a;
 }
 
-/* ===== CARD ===== */
-.card {
-  background: #1e293b;
-  padding: 15px;
-  margin: 10px;
-  border-radius: 15px;
-  width: 260px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-/* ===== LIST GRID ===== */
-.list, #musicList, #wordList {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+/* ===== UPLOAD ===== */
+.upload {
+  margin: 10px 0;
 }
 
 /* ===== PLAYER ===== */
-#player {
-  margin: 20px 0;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .menu a {
-    width: 90%;
-  }
-
-  .card {
-    width: 90%;
-  }
-}
-
-body {
-  background: linear-gradient(135deg,#0f172a,#1e293b);
-  color: white;
-  font-family: sans-serif;
-}
-
-.music-app {
-  text-align: center;
-  padding: 20px;
-}
-
 .player-card {
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(15px);
-  padding: 20px;
+  padding: 15px;
   border-radius: 20px;
-  max-width: 400px;
-  margin: auto;
+  margin: 15px auto;
+  width: 100%;
+  max-width: 420px;
+}
+
+#player {
+  margin: 15px 0;
+}
+
+#player audio,
+#player video,
+#player iframe {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* ===== CONTROLS ===== */
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .controls button {
-  margin: 5px;
-  font-size: 18px;
+  font-size: 16px;
+  flex: 1 1 60px;
+  max-width: 70px;
 }
 
+/* ===== RANGE ===== */
 #progress, #volume {
   width: 100%;
   margin: 10px 0;
 }
 
-.track {
-  background: #1e293b;
-  margin: 8px;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
+/* ===== PLAYLIST ===== */
+#playlist {
+  margin-top: 10px;
 }
 
+/* ===== TRACK ITEM ===== */
+.track {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e293b;
+  margin: 6px auto;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 500px;
+  transition: 0.2s;
+}
+
+.track:hover {
+  background: #334155;
+}
+
+.track span {
+  flex: 1;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track button {
+  background: #ef4444;
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+.track button:hover {
+  background: #dc2626;
+}
+
+/* active track */
 .track.active {
   border: 2px solid #22c55e;
 }
 
-/* mini player */
+/* ===== MINI PLAYER ===== */
 #miniPlayer {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 15px;
+  right: 15px;
   background: #0ea5e9;
   padding: 10px 15px;
   border-radius: 30px;
   cursor: pointer;
+  font-size: 14px;
+  max-width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 768px) {
+  .player-card {
+    max-width: 100%;
+  }
+
+  .track {
+    max-width: 100%;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+
+  h2 {
+    font-size: 18px;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .controls button {
+    font-size: 14px;
+  }
+
+  .track {
+    padding: 8px;
+  }
+
+  #miniPlayer {
+    font-size: 12px;
+    bottom: 10px;
+    right: 10px;
+  }
 }
