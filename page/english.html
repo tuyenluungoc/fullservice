@@ -8,11 +8,14 @@
 <body>
 
 <h2>📚 English Learning</h2>
-
 <h3>📖 Vocabulary</h3>
+
+<input id="searchWord" placeholder="🔍 Tìm từ..." oninput="searchWord(this.value)">
+
 <input id="word" placeholder="Từ">
 <input id="meaning" placeholder="Nghĩa">
 <input id="example" placeholder="Ví dụ">
+
 <button onclick="addWord()">Thêm</button>
 
 <div id="wordList"></div>
@@ -20,8 +23,14 @@
 <hr>
 
 <h3>🎤 Speaking Practice</h3>
-<button onclick="randomQuestion()">Random Question</button>
+
+<button onclick="randomQuestion()">Random</button>
+<button onclick="copyQuestion()">Copy</button>
+
 <p id="question"></p>
+
+<textarea id="answerBox" placeholder="Viết câu trả lời của bạn..."></textarea>
+<button onclick="saveAnswer()">Lưu câu trả lời</button>
 
 <script src="../js/english.js"></script>
 </body>
