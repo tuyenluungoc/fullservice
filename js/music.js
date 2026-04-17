@@ -17,7 +17,7 @@ function searchTrack(text){
   render();
 }
 
-/* ADD YOUTUBE */
+/* YOUTUBE */
 function addYoutube(){
   const input = document.getElementById("youtubeLink");
   const link = input.value.trim();
@@ -54,10 +54,8 @@ function render() {
     const realIndex = playlist.indexOf(t);
 
     list.innerHTML += `
-      <div class="track">
-        <span onclick="selectTrack(${realIndex})"
-          style="cursor:pointer;
-          ${currentIndex === realIndex ? 'color:red;font-weight:bold' : ''}">
+      <div class="track ${currentIndex === realIndex ? "active" : ""}">
+        <span onclick="selectTrack(${realIndex})">
           ${t.name}
         </span>
         <button onclick="deleteTrack(${realIndex})">❌</button>
@@ -66,7 +64,7 @@ function render() {
   });
 }
 
-/* UPLOAD AUDIO */
+/* UPLOAD AUDIO (BASE64) */
 function uploadAudio() {
   const input = document.getElementById("audioInput");
   const file = input.files[0];
@@ -87,22 +85,25 @@ function uploadAudio() {
   reader.readAsDataURL(file);
 }
 
-/* UPLOAD VIDEO */
+/* UPLOAD VIDEO (FIX QUAN TRỌNG: BASE64) */
 function uploadVideo() {
   const input = document.getElementById("videoInput");
   const file = input.files[0];
   if (!file) return;
 
-  const url = URL.createObjectURL(file);
+  const reader = new FileReader();
 
-  playlist.push({
-    name: file.name,
-    src: url,
-    type: "video"
-  });
+  reader.onload = e => {
+    playlist.push({
+      name: file.name,
+      src: e.target.result,
+      type: "video"
+    });
+    save();
+    render();
+  };
 
-  save(); // FIX mất dữ liệu
-  render();
+  reader.readAsDataURL(file);
 }
 
 /* SELECT */
@@ -135,7 +136,7 @@ function play(){
     }
 
     player.innerHTML = `
-      <iframe width="100%" height="200"
+      <iframe width="100%" height="220"
       src="https://www.youtube.com/embed/${id}?autoplay=1"
       allowfullscreen></iframe>
     `;
@@ -152,12 +153,23 @@ function play(){
   media.ontimeupdate = updateProgress;
   media.onended = handleEnd;
 
+  media.volume = volume.value;
+
   isPlaying = true;
 }
 
 /* DELETE */
 function deleteTrack(index){
+  if(index === currentIndex){
+    media?.pause();
+  }
+
   playlist.splice(index,1);
+
+  if(currentIndex >= playlist.length){
+    currentIndex = 0;
+  }
+
   save();
   render();
 }
@@ -199,13 +211,13 @@ function prev(){
 /* SHUFFLE */
 function toggleShuffle(){
   shuffle=!shuffle;
-  alert("Shuffle: "+shuffle);
+  alert("Shuffle: "+(shuffle ? "ON" : "OFF"));
 }
 
 /* REPEAT */
 function toggleRepeat(){
   repeat=!repeat;
-  alert("Repeat: "+repeat);
+  alert("Repeat: "+(repeat ? "ON" : "OFF"));
 }
 
 /* END */
@@ -246,4 +258,10 @@ function toggleMini(){
 }
 
 /* INIT */
-render();
+window.onload = () => {
+  render();
+
+  if(playlist.length > 0){
+    play(); // auto load lại bài trước
+  }
+};
