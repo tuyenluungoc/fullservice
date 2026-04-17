@@ -1,33 +1,105 @@
+/* ===== RESET ===== */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-  background: linear-gradient(135deg,#0f172a,#1e293b);
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
   color: #e2e8f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* ===== APP ===== */
+/* ===== CONTAINER ===== */
+.container {
+  text-align: center;
+  padding: 30px 20px;
+  width: 100%;
+  max-width: 500px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* ===== TITLE ===== */
+.container h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+#time {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.container p {
+  margin-bottom: 20px;
+}
+
+/* ===== MENU ===== */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu a {
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 12px;
+  background: #1e293b;
+  color: white;
+  transition: 0.25s;
+  font-weight: 500;
+}
+
+.menu a:hover {
+  background: #22c55e;
+  transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px 15px;
+  }
+
+  .container h1 {
+    font-size: 22px;
+  }
+
+  .menu a {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* ===== MUSIC APP ===== */
 .music-app {
   max-width: 900px;
   margin: auto;
-  padding: 15px;
+  padding: 20px 15px;
   text-align: center;
 }
 
 /* ===== TITLE ===== */
-h2 {
+.music-app h2 {
   margin-bottom: 15px;
+  font-size: 24px;
 }
 
 /* ===== INPUT ===== */
-input {
+.music-app input {
   width: 100%;
-  max-width: 400px;
-  padding: 10px;
+  max-width: 420px;
+  padding: 10px 12px;
   margin: 6px auto;
   border-radius: 10px;
   border: none;
@@ -36,13 +108,13 @@ input {
   display: block;
 }
 
-input::placeholder {
+.music-app input::placeholder {
   color: #94a3b8;
 }
 
 /* ===== BUTTON ===== */
-button {
-  padding: 10px 15px;
+.music-app button {
+  padding: 10px 14px;
   border-radius: 10px;
   border: none;
   background: #22c55e;
@@ -52,71 +124,83 @@ button {
   margin: 5px;
 }
 
-button:hover {
+.music-app button:hover {
   background: #16a34a;
 }
 
 /* ===== UPLOAD ===== */
 .upload {
-  margin: 10px 0;
+  margin: 12px 0;
 }
 
-/* ===== PLAYER ===== */
+/* ===== PLAYER CARD ===== */
 .player-card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(15px);
-  padding: 15px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+  padding: 18px;
   border-radius: 20px;
-  margin: 15px auto;
+  margin: 20px auto;
   width: 100%;
-  max-width: 420px;
+  max-width: 450px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
 }
 
-#player {
-  margin: 15px 0;
+#nowPlaying {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #22c55e;
 }
 
+/* ===== MEDIA ===== */
 #player audio,
 #player video,
 #player iframe {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
+}
+
+/* ===== PROGRESS ===== */
+#progress {
+  width: 100%;
+  margin: 12px 0;
+  cursor: pointer;
 }
 
 /* ===== CONTROLS ===== */
 .controls {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 .controls button {
-  font-size: 16px;
-  flex: 1 1 60px;
-  max-width: 70px;
+  flex: 1;
+  min-width: 60px;
+  font-size: 15px;
 }
 
-/* ===== RANGE ===== */
-#progress, #volume {
+/* ===== VOLUME ===== */
+#volume {
   width: 100%;
-  margin: 10px 0;
+  margin-top: 10px;
 }
 
 /* ===== PLAYLIST ===== */
 #playlist {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 /* ===== TRACK ITEM ===== */
 .track {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   background: #1e293b;
   margin: 6px auto;
   padding: 10px;
   border-radius: 10px;
-  max-width: 500px;
+  max-width: 550px;
   transition: 0.2s;
 }
 
@@ -143,7 +227,7 @@ button:hover {
   background: #dc2626;
 }
 
-/* active track */
+/* active */
 .track.active {
   border: 2px solid #22c55e;
 }
@@ -153,8 +237,8 @@ button:hover {
   position: fixed;
   bottom: 15px;
   right: 15px;
-  background: #0ea5e9;
-  padding: 10px 15px;
+  background: linear-gradient(135deg, #0ea5e9, #22c55e);
+  padding: 10px 16px;
   border-radius: 30px;
   cursor: pointer;
   font-size: 14px;
@@ -162,6 +246,12 @@ button:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: 0.2s;
+}
+
+#miniPlayer:hover {
+  transform: scale(1.05);
 }
 
 /* ===== TABLET ===== */
@@ -178,25 +268,16 @@ button:hover {
 /* ===== MOBILE ===== */
 @media (max-width: 480px) {
 
-  h2 {
-    font-size: 18px;
+  .music-app h2 {
+    font-size: 20px;
   }
 
-  input {
-    font-size: 14px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 8px 10px;
+  .controls {
+    gap: 4px;
   }
 
   .controls button {
-    font-size: 14px;
-  }
-
-  .track {
-    padding: 8px;
+    font-size: 13px;
   }
 
   #miniPlayer {
