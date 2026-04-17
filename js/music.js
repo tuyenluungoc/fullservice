@@ -6,9 +6,15 @@ let repeat = false;
 let media = null;
 let searchText = "";
 
-/* SAVE */
+let progress, volume;
+
+/* SAVE (chỉ dùng cho YouTube) */
 function save() {
-  localStorage.setItem("playlist", JSON.stringify(playlist));
+  try {
+    localStorage.setItem("playlist", JSON.stringify(playlist));
+  } catch (e) {
+    console.warn("localStorage full, không thể lưu thêm");
+  }
 }
 
 /* SEARCH */
@@ -23,8 +29,14 @@ function addYoutube(){
   const link = input.value.trim();
   if(!link) return;
 
+  const id = getYoutubeId(link);
+  if(!id){
+    alert("Link YouTube không hợp lệ");
+    return;
+  }
+
   playlist.push({
-    name: "YouTube Video",
+    name: "YouTube: " + id,
     src: link,
     type: "youtube"
   });
@@ -34,11 +46,19 @@ function addYoutube(){
   render();
 }
 
-/* GET YOUTUBE ID */
+/* GET YOUTUBE ID (xịn hơn) */
 function getYoutubeId(url){
-  const reg = /(?:v=|youtu\.be\/)([^&]+)/;
-  const match = url.match(reg);
-  return match ? match[1] : null;
+  try{
+    const u = new URL(url);
+
+    if(u.hostname.includes("youtu.be")){
+      return u.pathname.slice(1);
+    }
+
+    return u.searchParams.get("v");
+  }catch{
+    return null;
+  }
 }
 
 /* RENDER */
@@ -64,46 +84,36 @@ function render() {
   });
 }
 
-/* UPLOAD AUDIO (BASE64) */
+/* UPLOAD AUDIO (KHÔNG dùng base64 nữa) */
 function uploadAudio() {
-  const input = document.getElementById("audioInput");
-  const file = input.files[0];
+  const file = document.getElementById("audioInput").files[0];
   if(!file) return;
 
-  const reader = new FileReader();
+  const url = URL.createObjectURL(file);
 
-  reader.onload = e => {
-    playlist.push({
-      name: file.name,
-      src: e.target.result,
-      type: "audio"
-    });
-    save();
-    render();
-  };
+  playlist.push({
+    name: file.name,
+    src: url,
+    type: "audio"
+  });
 
-  reader.readAsDataURL(file);
+  render();
 }
 
-/* UPLOAD VIDEO (FIX QUAN TRỌNG: BASE64) */
+/* UPLOAD VIDEO */
 function uploadVideo() {
-  const input = document.getElementById("videoInput");
-  const file = input.files[0];
+  const file = document.getElementById("videoInput").files[0];
   if (!file) return;
 
-  const reader = new FileReader();
+  const url = URL.createObjectURL(file);
 
-  reader.onload = e => {
-    playlist.push({
-      name: file.name,
-      src: e.target.result,
-      type: "video"
-    });
-    save();
-    render();
-  };
+  playlist.push({
+    name: file.name,
+    src: url,
+    type: "video"
+  });
 
-  reader.readAsDataURL(file);
+  render();
 }
 
 /* SELECT */
@@ -122,11 +132,13 @@ function play(){
   document.getElementById("nowPlaying").innerText = t.name;
   document.getElementById("miniTitle").innerText = t.name;
 
+  player.innerHTML = ""; // reset
+
   if(t.type==="audio"){
-    player.innerHTML=`<audio id="media" src="${t.src}" autoplay></audio>`;
+    player.innerHTML=`<audio id="media" src="${t.src}"></audio>`;
   }
   else if(t.type==="video"){
-    player.innerHTML=`<video id="media" src="${t.src}" controls autoplay></video>`;
+    player.innerHTML=`<video id="media" src="${t.src}" controls></video>`;
   }
   else if(t.type==="youtube"){
     const id = getYoutubeId(t.src);
@@ -138,8 +150,10 @@ function play(){
     player.innerHTML = `
       <iframe width="100%" height="220"
       src="https://www.youtube.com/embed/${id}?autoplay=1"
+      allow="autoplay"
       allowfullscreen></iframe>
     `;
+
     isPlaying = true;
     return;
   }
@@ -154,6 +168,11 @@ function play(){
   media.onended = handleEnd;
 
   media.volume = volume.value;
+
+  // fix lỗi promise
+  media.play().catch(err => {
+    console.log("Play bị chặn:", err);
+  });
 
   isPlaying = true;
 }
@@ -181,7 +200,7 @@ function togglePlay(){
   if(isPlaying){
     media.pause();
   }else{
-    media.play();
+    media.play().catch(()=>{});
   }
 
   isPlaying = !isPlaying;
@@ -230,26 +249,10 @@ function handleEnd(){
 }
 
 /* PROGRESS */
-const progress = document.getElementById("progress");
-
 function updateProgress(){
   if(!media || !media.duration) return;
   progress.value = (media.currentTime / media.duration) * 100;
 }
-
-progress.oninput = () => {
-  if(media && media.duration){
-    media.currentTime = (progress.value/100)*media.duration;
-  }
-};
-
-/* VOLUME */
-const volume = document.getElementById("volume");
-volume.value = 1;
-
-volume.oninput = () => {
-  if(media) media.volume = volume.value;
-};
 
 /* MINI PLAYER */
 function toggleMini(){
@@ -259,9 +262,24 @@ function toggleMini(){
 
 /* INIT */
 window.onload = () => {
+  progress = document.getElementById("progress");
+  volume = document.getElementById("volume");
+
+  volume.value = 1;
+
+  progress.oninput = () => {
+    if(media && media.duration){
+      media.currentTime = (progress.value/100)*media.duration;
+    }
+  };
+
+  volume.oninput = () => {
+    if(media) media.volume = volume.value;
+  };
+
   render();
 
   if(playlist.length > 0){
-    play(); // auto load lại bài trước
+    play();
   }
 };
